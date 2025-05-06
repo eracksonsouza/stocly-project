@@ -1,16 +1,13 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+// Já o layout.tsx é um arquivo que define o layout da aplicação, ou seja, a estrutura básica que será aplicada em todas as páginas. O layout pode incluir elementos como cabeçalho, rodapé e barra de navegação, que serão exibidos em todas as páginas da aplicação. O conteúdo específico de cada página é renderizado dentro do layout, permitindo uma estrutura consistente em toda a aplicação.
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+import type { Metadata } from "next";
+import "./globals.css";
+import SideBar from "./_components/sidebar";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "auto",
 });
 
 export const metadata: Metadata = {
@@ -25,10 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${inter.className} antialiased`}>
+        <div className="flex gap-8 h-full">
+          <SideBar />
+          {children}
+        </div>
       </body>
     </html>
   );
