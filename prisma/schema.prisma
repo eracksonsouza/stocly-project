@@ -1,0 +1,44 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // A URL do banco de dados que você configurou no .env
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id        String   @id @default(cuid()) // ID do produto, chave primária
+  name      String // Nome do produto
+  price     Decimal  @db.Decimal(10, 2) // Preço do produto, com 10 dígitos antes da vírgula e 2 depois
+  stock     Int // Quantidade em estoque
+  status    String // Status do produto (em estoque ou esgotado)
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Data de atualização
+
+  salesProducts SalesProduct[] // Relacionamento com SalesProduct
+}
+
+model Sale {
+  id            String   @id @default(cuid()) // ID da venda, chave primária
+  date          DateTime // Data da venda
+  totalPrice    Decimal  @db.Decimal(10, 2) // Preço total da venda
+  totalQuantity Int // Quantidade total de produtos na venda
+  createdAt     DateTime @default(now()) // Data de criação
+  updatedAt     DateTime @updatedAt // Data de atualização
+
+  salesProducts SalesProduct[] // Relacionamento com SalesProduct
+}
+
+model SalesProduct {
+  id        String   @id @default(cuid()) // ID do registro, chave primária
+  saleId    String // ID da venda
+  productId String // ID do produto
+  unitPrice Decimal  @db.Decimal(10, 2) // Preço unitário do produto na venda
+  quantity  Int // Quantidade do produto na venda
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Data de atualização
+
+  sale    Sale    @relation(fields: [saleId], references: [id]) // Relacionamento com Sale
+  product Product @relation(fields: [productId], references: [id]) // Relacionamento com Product
+}

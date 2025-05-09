@@ -22,7 +22,6 @@ const SidebarButton = ({ href, children } : SidebarButtonProps) => {
         </Link>
       </Button>
 
-
     </>
   );
 };
