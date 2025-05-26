@@ -27,7 +27,7 @@ export async function POST (request: Request) {
             name,
             price,
             stock,
-            status: "active", // or another appropriate default value
+            status: "active", // status pode ser "active" ou "inactive" que vai ser usado para controlar a visibilidade do produto
         },
     })
     return Response.json(
